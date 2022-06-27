@@ -1,0 +1,14 @@
+Name: user-api
+Host: 0.0.0.0
+Port: 8888
+
+MysqlDb:
+  DataSource: root:root@tcp(127.0.0.1:3306)/user_service?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+
+Log:
+  ServiceName: user-api
+  Mode: file
+  Path: logs
+  Encoding: plain
+  Level: severe
+  KeepDays: 7

@@ -1,0 +1,79 @@
+syntax = "v1"
+
+info(
+	author : "dc"
+	date : "2020-06-23"
+	desc : "api 语法说明以及示例演示"
+)
+
+type User {
+	Id       int64  `json:"id"`
+	Nickname string `json:"nickname"`
+}
+
+type (
+	RegisterReq {
+		Mobile   string `json:"mobile"`
+		Password string `json:"password"`
+	}
+	RegisterResp {
+		AccessToken  string `json:"accessToken"`
+		AccessExpire int64  `json:"accessExpire"`
+		RefreshAfter int64  `json:"refreshAfter"`
+	}
+)
+
+type (
+	userInfoReq {
+		UserId int64 `json:"userId"`
+	}
+	userInfoResp {
+		UserId   int64  `json:"userId"`
+		Username string `json:"username"`
+	}
+)
+
+type (
+	LoginReq {
+		Mobile   string `json:"mobile"`
+		Password string `json:"password"`
+	}
+	LoginResp {
+		AccessToken  string `json:"accessToken"`
+		AccessExpire int64  `json:"accessExpire"`
+		RefreshAfter int64  `json:"refreshAfter"`
+	}
+)
+
+type (
+	UserLevelUpReq {
+		UserId int64 `json:"userId"`
+		Level  int64 `json:"level"`
+	}
+
+	UserLevelUpResp {
+		Code    int64  `json:"code"`
+		Message string `json:"message"`
+	}
+)
+
+service user-api {
+	@doc "get user info"
+	@handler userInfo
+	post /user/profile (userInfoReq) returns (userInfoResp)
+	
+	@doc "wechat mini auth"
+	@handler levelUp
+	post /levelup (UserLevelUpReq) returns (UserLevelUpResp)
+}
+
+@server(
+	middleware:UserMiddleware
+)
+
+service user-api {
+	@doc "test middleware"
+	@handler userMiddleware
+	post /test/middleware (userInfoReq) returns (userInfoResp)
+	
+}
